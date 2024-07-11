@@ -1,35 +1,92 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import { PiTrash } from 'react-icons/pi';
+import { SlPlus } from 'react-icons/sl';
+import ProjectForm from "@/components/ProjectForm";
+import ProjectList from "@/components/ProjectList";
+import TaskForm from "@/components/TaskForm";
+import TaskUnit from "@/components/TaskUnit";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [projects, setProjects] = useState(() => {
+        const localProjects = localStorage.getItem('PROJECTS_ITEMS');
+        if (localProjects == null) return [];
+        return JSON.parse(localProjects);
+    });
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const [activeProject, setActiveProject] = useState(() => {
+        const initProject = {
+            id: 'initial-project',
+            title: 'Init Project',
+            taskList: [],
+        };
+
+        if (projects.length === 0) {
+            setProjects(() => {
+                return [initProject];
+            });
+        }
+
+        return projects[0];
+    });
+
+    useEffect(() => {
+        localStorage.setItem('PROJECTS_ITEMS', JSON.stringify(projects));
+    }, [projects]);
+
+    function addNewProject(title) {
+        setProjects(() => {
+            return [
+                ...projects,
+                { id: crypto.randomUUID(), title: title, taskList: [] },
+            ];
+        });
+    }
+
+    // localStorage.removeItem('PROJECTS_ITEMS');
+
+    return (
+        <div className="app-root flex h-screen min-h-screen">
+            <div className="sidebar w-3/12 min-w-48 border border-gray-700 bg-gray-300">
+                <h1 className="mx-4 my-3 text-4xl">SEPIK</h1>
+                <ProjectForm addNewProject={addNewProject} />
+                <ProjectList projects={projects} />
+            </div>
+
+            <div className="content max-w-3/4 flex-grow">
+                {/* <SearchBar /> */}
+                {/* <div className="mx-4 my-2">
+                    <div className="flex items-center gap-2 text-2xl">
+                        <button className="my-2">
+                            <SlPlus size={28} />
+                        </button>
+                        <h2 className="flex-grow">PROJECT TITLE</h2>
+                        <button>
+                            <PiTrash style={{ color: 'red' }} size={32} />
+                        </button>
+                    </div>
+
+                    <ul className="flex flex-col gap-1">
+                        <TaskUnit />
+                        <TaskUnit />
+                    </ul>
+                </div> */}
+                    <TaskForm />
+                    <div className="mx-4 my-2">
+                        <div className="flex items-center gap-2 text-2xl font-semibold">
+                            <h2 className="flex-grow">PROJECT TITLE</h2>
+                            <button>
+                                <PiTrash style={{ color: 'red' }} size={32} />
+                            </button>
+                        </div>
+
+                        <ul className="flex flex-col gap-1">
+                            <TaskUnit />
+                            <TaskUnit />
+                        </ul>
+                    </div>
+            </div>
+        </div>
+    )
 }
 
 export default App
