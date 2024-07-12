@@ -4,15 +4,9 @@ import { Trash, Pencil } from 'lucide-react';
 import ProjectForm from '@/components/ProjectForm';
 import ProjectList from '@/components/ProjectList';
 import TaskForm from '@/components/TaskForm';
+import TaskUnit from '@/components/TaskUnit';
 
 export const Context = React.createContext();
-const initProject = {
-	id: 'initial-project',
-	title: 'Init Project',
-	taskList: ['something'],
-};
-
-let activeTaskList;
 
 function App() {
 	// localStorage.removeItem('PROJECT_ITEMS');
@@ -21,28 +15,24 @@ function App() {
 	// 	if (localProjects == null) return [];
 	// 	return JSON.parse(localProjects);
 	// });
-	const [projects, setProjects] = useState([]);
-	const [activeProject, setActiveProject] = useState(null);
+	const [projects, setProjects] = useState([
+		{
+			id: 'initial-project',
+			title: 'Init Project',
+			taskList: ['Something'],
+		},
+	]);
+	const [activeProject, setActiveProject] = useState(projects[0].id);
+	let currentProject = projects[0];
 
 	// useEffect(() => {
 	// 	localStorage.setItem('PROJECT_ITEMS', JSON.stringify(projects));
 	// }, [projects]);
 
-	/* useEffect hooks to check whether the projects list is empty or not,
-	if empty, initialize one project and store into projects list. */
+	/* useEffect to change the content displayed and show task of active project */
 	useEffect(() => {
-		if (projects.length === 0) {
-			setProjects(() => {
-				return [initProject];
-			});
-
-			setActiveProject(() => {
-				return initProject.id;
-			});
-		}
-
-		activeTaskList = projects.filter((project) => {
-			if (project.id === activeProject) return project.taskList;
+		currentProject = projects.find((project) => {
+			if (project.id === activeProject) return project;
 		});
 	}, [activeProject]);
 
@@ -54,8 +44,6 @@ function App() {
 			];
 		});
 	}
-
-	// console.log(activeTaskList);
 
 	return (
 		<div className="app-root flex h-screen min-h-screen">
@@ -69,7 +57,7 @@ function App() {
 
 			<div className="content max-w-3/4 flex-grow">
 				<div className="mx-4 my-2 mb-6 flex items-center gap-2 text-2xl font-semibold">
-					<h2 className="my-2 flex-grow">PROJECT TITLE</h2>
+					<h2 className="my-2 flex-grow">{currentProject.title}</h2>
 					<Button variant="outline">
 						<Pencil className="mr-2 h-4 w-4" /> Edit
 					</Button>
@@ -80,7 +68,9 @@ function App() {
 
 				<div className="mx-4 my-2">
 					<TaskForm />
-					<ul className="flex flex-col gap-1"></ul>
+					<ul className="flex flex-col gap-1">
+						<TaskUnit />
+					</ul>
 				</div>
 			</div>
 		</div>
