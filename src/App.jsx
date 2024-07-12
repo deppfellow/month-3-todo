@@ -27,7 +27,7 @@ function App() {
 	const [activeTitle, setActiveTitle] = useState(projects[0].title);
 	const [activeTaskList, setActiveTaskList] = useState(projects[0].taskList);
 
-	// let currentProject = projects[0];
+	let currentProject;
 
 	// useEffect(() => {
 	// 	localStorage.setItem('PROJECT_ITEMS', JSON.stringify(projects));
@@ -35,12 +35,14 @@ function App() {
 
 	/* useEffect to change the content displayed and show task of active project */
 	useEffect(() => {
-		const currentProject = projects.find((project) => {
+		currentProject = projects.find((project) => {
 			if (project.id === activeId) return project;
 		});
 
 		setActiveTitle(currentProject.title);
 		setActiveTaskList(currentProject.taskList);
+
+		console.log(currentProject);
 	}, [activeId]);
 
 	function addNewProject(title) {
@@ -51,6 +53,16 @@ function App() {
 			];
 		});
 	}
+
+	function addNewTask(taskDesc) {
+		// Get current active project
+		// Add task to the active project
+		const currentTaskList = currentProject.taskList;
+
+		setActiveTaskList();
+	}
+
+	// TODO: Render task list to content
 
 	return (
 		<div className="app-root flex h-screen min-h-screen">
@@ -74,7 +86,7 @@ function App() {
 				</div>
 
 				<div className="mx-4 my-2">
-					<TaskForm />
+					<TaskForm addNewTask={addNewTask} />
 					<ul className="flex flex-col gap-1">
 						<TaskUnit />
 					</ul>
