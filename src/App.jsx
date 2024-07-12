@@ -5,6 +5,7 @@ import ProjectForm from '@/components/ProjectForm';
 import ProjectList from '@/components/ProjectList';
 import TaskForm from '@/components/TaskForm';
 import TaskUnit from '@/components/TaskUnit';
+// import useActive from '@/hooks/useActive';
 
 export const Context = React.createContext();
 
@@ -22,8 +23,11 @@ function App() {
 			taskList: ['Something'],
 		},
 	]);
-	const [activeProject, setActiveProject] = useState(projects[0].id);
-	let currentProject = projects[0];
+	const [activeId, setActiveId] = useState(projects[0].id);
+	const [activeTitle, setActiveTitle] = useState(projects[0].title);
+	const [activeTaskList, setActiveTaskList] = useState(projects[0].taskList);
+
+	// let currentProject = projects[0];
 
 	// useEffect(() => {
 	// 	localStorage.setItem('PROJECT_ITEMS', JSON.stringify(projects));
@@ -31,10 +35,13 @@ function App() {
 
 	/* useEffect to change the content displayed and show task of active project */
 	useEffect(() => {
-		currentProject = projects.find((project) => {
-			if (project.id === activeProject) return project;
+		const currentProject = projects.find((project) => {
+			if (project.id === activeId) return project;
 		});
-	}, [activeProject]);
+
+		setActiveTitle(currentProject.title);
+		setActiveTaskList(currentProject.taskList);
+	}, [activeId]);
 
 	function addNewProject(title) {
 		setProjects(() => {
@@ -50,14 +57,14 @@ function App() {
 			<div className="sidebar w-3/12 min-w-48 border border-gray-700 bg-gray-300">
 				<h1 className="text-bold mx-4 my-3 text-4xl">SEPIK</h1>
 				<ProjectForm addNewProject={addNewProject} />
-				<Context.Provider value={[activeProject, setActiveProject]}>
+				<Context.Provider value={[activeId, setActiveId]}>
 					<ProjectList projects={projects} />
 				</Context.Provider>
 			</div>
 
 			<div className="content max-w-3/4 flex-grow">
 				<div className="mx-4 my-2 mb-6 flex items-center gap-2 text-2xl font-semibold">
-					<h2 className="my-2 flex-grow">{currentProject.title}</h2>
+					<h2 className="my-2 flex-grow">{activeTitle}</h2>
 					<Button variant="outline">
 						<Pencil className="mr-2 h-4 w-4" /> Edit
 					</Button>
