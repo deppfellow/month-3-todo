@@ -1,9 +1,13 @@
 import { useContext } from 'react';
 import { Context } from '@/App';
-import { Key } from 'lucide-react';
 
 function ProjectUnit({ id, title }) {
 	const [activeProject, setActiveProject] = useContext(Context);
+
+	// function getActiveProject(projectId) {
+	// 	setActiveProject(projectId);
+	// 	console.log(activeProject);
+	// }
 
 	return (
 		<li className="text-base">
