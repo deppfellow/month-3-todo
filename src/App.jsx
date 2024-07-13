@@ -24,24 +24,24 @@ function App() {
 		},
 	]);
 	const [activeId, setActiveId] = useState(projects[0].id);
-	const [activeTitle, setActiveTitle] = useState(projects[0].title);
-	const [activeTaskList, setActiveTaskList] = useState(projects[0].taskList);
+	// const [activeTitle, setActiveTitle] = useState(projects[0].title);
+	// const [activeTaskList, setActiveTaskList] = useState(projects[0].taskList);
 
-	let currentProject;
+	const currentProject = projects.find((project) => {
+		if (project.id === activeId) return project;
+	});
+	const activeTitle = currentProject.title;
+	const activeTaskList = currentProject.taskList;
 
 	// useEffect(() => {
 	// 	localStorage.setItem('PROJECT_ITEMS', JSON.stringify(projects));
 	// }, [projects]);
 
 	/* useEffect to change the content displayed and show task of active project */
-	useEffect(() => {
-		currentProject = projects.find((project) => {
-			if (project.id === activeId) return project;
-		});
-
-		setActiveTitle(currentProject.title);
-		setActiveTaskList(currentProject.taskList);
-	}, [activeId]);
+	// useEffect(() => {
+	// 	setActiveTitle(currentProject.title);
+	// 	setActiveTaskList(currentProject.taskList);
+	// }, [activeId]);
 
 	function addNewProject(title) {
 		setProjects(() => {
@@ -59,9 +59,9 @@ function App() {
 			id: crypto.randomUUID(),
 			desc: taskDesc,
 			isCompleted: false,
-		}
+		};
 		currentProject.taskList.push(newTask);
-		
+
 		setActiveTaskList(currentProject.taskList);
 	}
 
