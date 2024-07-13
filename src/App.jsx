@@ -41,8 +41,6 @@ function App() {
 
 		setActiveTitle(currentProject.title);
 		setActiveTaskList(currentProject.taskList);
-
-		console.log(currentProject);
 	}, [activeId]);
 
 	function addNewProject(title) {
@@ -57,9 +55,14 @@ function App() {
 	function addNewTask(taskDesc) {
 		// Get current active project
 		// Add task to the active project
-		const currentTaskList = currentProject.taskList;
-
-		setActiveTaskList();
+		const newTask = {
+			id: crypto.randomUUID(),
+			desc: taskDesc,
+			isCompleted: false,
+		}
+		currentProject.taskList.push(newTask);
+		
+		setActiveTaskList(currentProject.taskList);
 	}
 
 	// TODO: Render task list to content

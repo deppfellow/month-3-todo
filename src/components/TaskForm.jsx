@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 function TaskForm({ addNewTask }) {
 	const [taskDesc, setTaskDesc] = useState('');
 
-	function formHandler() {
+	function formHandler(e) {
 		e.preventDefault();
 		addNewTask(taskDesc);
 		setTaskDesc('');
