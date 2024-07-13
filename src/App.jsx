@@ -20,52 +20,51 @@ function App() {
 		{
 			id: 'initial-project',
 			title: 'Init Project',
-			taskList: ['Something'],
 		},
 	]);
 	const [activeId, setActiveId] = useState(projects[0].id);
-	// const [activeTitle, setActiveTitle] = useState(projects[0].title);
-	// const [activeTaskList, setActiveTaskList] = useState(projects[0].taskList);
+	const [tasks, setTasks] = useState([
+		{
+			taskId: crypto.randomUUID(),
+			desc: 'Something',
+			isCompleted: false,
+			whichProject: 'initial-project',
+		},
+	]);
 
 	const currentProject = projects.find((project) => {
 		if (project.id === activeId) return project;
 	});
 	const activeTitle = currentProject.title;
-	const activeTaskList = currentProject.taskList;
+	const activeTaskList = tasks.filter((task) => {
+		if (task.whichProject === currentProject.id) return task;
+	});
 
 	// useEffect(() => {
 	// 	localStorage.setItem('PROJECT_ITEMS', JSON.stringify(projects));
 	// }, [projects]);
 
-	/* useEffect to change the content displayed and show task of active project */
-	// useEffect(() => {
-	// 	setActiveTitle(currentProject.title);
-	// 	setActiveTaskList(currentProject.taskList);
-	// }, [activeId]);
-
 	function addNewProject(title) {
 		setProjects(() => {
-			return [
-				...projects,
-				{ id: crypto.randomUUID(), title: title, taskList: [] },
-			];
+			return [...projects, { id: crypto.randomUUID(), title: title }];
 		});
 	}
 
 	function addNewTask(taskDesc) {
 		// Get current active project
 		// Add task to the active project
-		const newTask = {
-			id: crypto.randomUUID(),
-			desc: taskDesc,
-			isCompleted: false,
-		};
-		currentProject.taskList.push(newTask);
-
-		setActiveTaskList(currentProject.taskList);
+		setTasks(() => {
+			return [
+				...tasks,
+				{
+					taskId: crypto.randomUUID(),
+					desc: taskDesc,
+					isCompleted: false,
+					whichProject: currentProject.id,
+				},
+			];
+		});
 	}
-
-	// TODO: Render task list to content
 
 	return (
 		<div className="app-root flex h-screen min-h-screen">
@@ -91,7 +90,15 @@ function App() {
 				<div className="mx-4 my-2">
 					<TaskForm addNewTask={addNewTask} />
 					<ul className="flex flex-col gap-1">
-						<TaskUnit />
+						{activeTaskList.map((task) => {
+							return (
+								<TaskUnit
+									isCompleted={task.isCompleted}
+									desc={task.desc}
+									key={task.taskId}
+								/>
+							);
+						})}
 					</ul>
 				</div>
 			</div>

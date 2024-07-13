@@ -2,7 +2,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Pencil, Trash } from 'lucide-react';
 
-function TaskUnit() {
+function TaskUnit({ isCompleted, desc }) {
 	return (
 		<li className="my-1 flex items-center gap-2">
 			<Checkbox id="terms1" />
@@ -11,10 +11,7 @@ function TaskUnit() {
 					htmlFor="terms1"
 					className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
 				>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.
-					Error dolor asperiores nesciunt sunt vero explicabo incidunt
-					animi fuga eaque alias, sed, minus veritatis natus?
-					Similique optio modi enim repellendus et?
+					{desc}
 				</label>
 			</div>
 			<Button variant="outline" size="icon">
