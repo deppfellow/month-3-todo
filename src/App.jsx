@@ -96,13 +96,11 @@ function App() {
 
 	return (
 		<div className="app-root flex h-screen min-h-screen">
-			<div className="sidebar w-3/12 min-w-48 border border-gray-700 bg-gray-300">
-				<Sidebar
-					addNewProject={addNewProject}
-					value={[activeId, setActiveId]}
-					projects={projects}
-				/>
-			</div>
+			<Sidebar
+				addNewProject={addNewProject}
+				value={[activeId, setActiveId]}
+				projects={projects}
+			/>
 
 			<div className="content max-w-3/4 flex-grow">
 				<div className="mx-4 my-2 mb-6 flex items-center gap-2 text-2xl font-semibold">
