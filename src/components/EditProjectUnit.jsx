@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 
-function EditProjectUnit({ editProject, activeTitle, setEditProjectState }) {
+function EditProjectUnit({ editProject, setEditProjectState, activeTitle }) {
 	const [newProjectTitle, setNewProjectTitle] = useState(activeTitle);
 
 	function inputHandler(e) {
 		e.preventDefault();
-		editProject();
+		editProject(newProjectTitle);
 		setEditProjectState(false);
 	}
 

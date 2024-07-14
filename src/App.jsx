@@ -55,18 +55,25 @@ function App() {
 		});
 	}
 
+	function editProject(projectTitle) {
+		setProjects((allProjects) => {
+			return allProjects.map((project) => {
+				if (project.id === currentProject.id) {
+					return { ...project, title: projectTitle };
+				}
+
+				return project; // Else, just return the project as is
+			});
+		});
+	}
+
 	function deleteProject(projectToDelete) {
 		setActiveId(projects[0].id);
-
 		setProjects((allProject) => {
 			return allProject.filter((project) => {
 				if (project.id !== projectToDelete) return project;
 			});
 		});
-	}
-
-	function editProject() {
-		setEditProjectState(true);
 	}
 
 	function addNewTask(taskDesc) {
@@ -108,7 +115,10 @@ function App() {
 							activeTitle
 						)}
 					</h2>
-					<Button variant="outline" onClick={() => editProject()}>
+					<Button
+						variant="outline"
+						onClick={() => setEditProjectState(true)}
+					>
 						<Pencil className="mr-2 h-4 w-4" /> Edit
 					</Button>
 					<Button
