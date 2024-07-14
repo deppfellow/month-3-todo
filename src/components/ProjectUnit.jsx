@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Context } from '@/App';
+import { Context } from '@/components/Sidebar';
 
 function ProjectUnit({ id, title }) {
 	const [activeProject, setActiveProject] = useContext(Context);
