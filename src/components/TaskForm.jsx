@@ -17,6 +17,7 @@ function TaskForm({ addNewTask }) {
 				<Button className="text-lg font-extrabold">+</Button>
 				<Input
 					type="text"
+					value={taskDesc}
 					placeholder="Task Description"
 					autoComplete="off"
 					onChange={(e) => setTaskDesc(e.target.value)}
