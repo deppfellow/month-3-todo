@@ -74,6 +74,11 @@ function App() {
 				if (project.id !== projectToDelete) return project;
 			});
 		});
+		setTasks((allTasks) => {
+			return allTasks.filter((task) => {
+				if (task.whichProject !== projectToDelete) return task;
+			});
+		});
 	}
 
 	function addNewTask(taskDesc) {
