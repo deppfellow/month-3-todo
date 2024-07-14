@@ -5,6 +5,8 @@ import ProjectForm from '@/components/ProjectForm';
 import ProjectList from '@/components/ProjectList';
 import TaskForm from '@/components/TaskForm';
 import TaskUnit from '@/components/TaskUnit';
+import { Input } from './components/ui/input';
+import EditProjectUnit from './components/EditProjectUnit';
 // import useActive from '@/hooks/useActive';
 
 export const Context = React.createContext();
@@ -19,7 +21,7 @@ function App() {
 	const [projects, setProjects] = useState([
 		{
 			id: 'initial-project',
-			title: 'Init Project',
+			title: 'Home',
 		},
 	]);
 
@@ -36,6 +38,7 @@ function App() {
 			whichProject: 'initial-project',
 		},
 	]);
+	const [editProjectState, setEditProjectState] = useState(false);
 
 	const currentProject = projects.find((project) => {
 		if (project.id === activeId) return project;
@@ -60,6 +63,10 @@ function App() {
 				if (project.id !== projectToDelete) return project;
 			});
 		});
+	}
+
+	function editProject() {
+		setEditProjectState(true);
 	}
 
 	function addNewTask(taskDesc) {
@@ -90,8 +97,18 @@ function App() {
 
 			<div className="content max-w-3/4 flex-grow">
 				<div className="mx-4 my-2 mb-6 flex items-center gap-2 text-2xl font-semibold">
-					<h2 className="my-2 flex-grow">{activeTitle}</h2>
-					<Button variant="outline">
+					<h2 className="my-2 flex-grow">
+						{editProjectState ? (
+							<EditProjectUnit
+								editProject={editProject}
+								setEditProjectState={setEditProjectState}
+								activeTitle={activeTitle}
+							/>
+						) : (
+							activeTitle
+						)}
+					</h2>
+					<Button variant="outline" onClick={() => editProject()}>
 						<Pencil className="mr-2 h-4 w-4" /> Edit
 					</Button>
 					<Button

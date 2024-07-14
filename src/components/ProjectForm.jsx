@@ -21,6 +21,7 @@ function NewProjectForm({ addNewProject }) {
 				<Input
 					type="text"
 					id="project-title"
+					value={newProject}
 					onChange={(e) => setNewProject(e.target.value)}
 					placeholder="Title"
 					autoComplete="off"
