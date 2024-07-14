@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Trash, Pencil } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 import Sidebar from '@/components/Sidebar';
-import EditProjectUnit from '@/components/EditProjectUnit';
-import TaskForm from '@/components/TaskForm';
-import TaskUnit from '@/components/TaskUnit';
+import Content from '@/components/Content';
 
 function App() {
 	// localStorage.removeItem('PROJECT_ITEMS');
@@ -127,56 +123,23 @@ function App() {
 				projects={projects}
 			/>
 
-			<div className="content max-w-3/4 flex-grow">
-				<div className="mx-4 my-2 mb-6 flex items-center gap-2 text-2xl font-semibold">
-					<h2 className="my-2 flex-grow">
-						{editProjectState ? (
-							<EditProjectUnit
-								editProject={editProject}
-								setEditProjectState={setEditProjectState}
-								activeTitle={activeTitle}
-							/>
-						) : (
-							activeTitle
-						)}
-					</h2>
-					<Button
-						variant="outline"
-						onClick={() => setEditProjectState(true)}
-					>
-						<Pencil className="mr-2 h-4 w-4" /> Edit
-					</Button>
-					<Button
-						variant="destructive"
-						onClick={() => {
-							deleteProject(currentProject.id);
-						}}
-					>
-						<Trash className="mr-2 h-4 w-4" /> Delete
-					</Button>
-				</div>
-
-				<div className="mx-4 my-2">
-					<TaskForm addNewTask={addNewTask} />
-					<ul className="flex flex-col gap-1">
-						{activeTaskList.map((task) => {
-							return (
-								<TaskUnit
-									taskId={task.taskId}
-									desc={task.desc}
-									isCompleted={task.isCompleted}
-									key={task.taskId}
-									taskFunction={{
-										toggleTask,
-										editTask,
-										deleteTask,
-									}}
-								/>
-							);
-						})}
-					</ul>
-				</div>
-			</div>
+			<Content
+				projectProps={{
+					editProject,
+					deleteProject,
+					setEditProjectState,
+					editProjectState,
+					currentProject,
+					activeTitle,
+				}}
+				taskProps={{
+					addNewTask,
+					toggleTask,
+					editTask,
+					deleteTask,
+					activeTaskList,
+				}}
+			/>
 		</div>
 	);
 }
