@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
 import { Trash, Pencil } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
+import Sidebar from '@/components/Sidebar';
+import EditProjectUnit from '@/components/EditProjectUnit';
 import TaskForm from '@/components/TaskForm';
 import TaskUnit from '@/components/TaskUnit';
-import { Input } from './components/ui/input';
-import Sidebar from './components/Sidebar';
-import EditProjectUnit from './components/EditProjectUnit';
 
 function App() {
 	// localStorage.removeItem('PROJECT_ITEMS');
@@ -31,7 +30,7 @@ function App() {
 		{
 			taskId: crypto.randomUUID(),
 			desc: 'Something',
-			isCompleted: false,
+			isCompleted: true,
 			whichProject: 'initial-project',
 		},
 	]);
@@ -40,7 +39,6 @@ function App() {
 	const currentProject = projects.find((project) => {
 		if (project.id === activeId) return project;
 	});
-
 	const activeTitle = currentProject.title;
 	const activeTaskList = tasks.filter((task) => {
 		if (task.whichProject === currentProject.id) return task;
@@ -58,7 +56,6 @@ function App() {
 				if (project.id === currentProject.id) {
 					return { ...project, title: projectTitle };
 				}
-
 				return project; // Else, just return the project as is
 			});
 		});
@@ -79,8 +76,6 @@ function App() {
 	}
 
 	function addNewTask(taskDesc) {
-		// Get current active project
-		// Add task to the active project
 		setTasks(() => {
 			return [
 				...tasks,
@@ -91,6 +86,17 @@ function App() {
 					whichProject: currentProject.id,
 				},
 			];
+		});
+	}
+
+	function toggleTask(taskToToggle, isCompleted) {
+		setTasks((allTasks) => {
+			return allTasks.map((task) => {
+				if (task.taskId === taskToToggle) {
+					return { ...task, isCompleted };
+				}
+				return task;
+			});
 		});
 	}
 
@@ -137,9 +143,11 @@ function App() {
 						{activeTaskList.map((task) => {
 							return (
 								<TaskUnit
-									isCompleted={task.isCompleted}
+									taskId={task.taskId}
 									desc={task.desc}
+									isCompleted={task.isCompleted}
 									key={task.taskId}
+									toggleTask={toggleTask}
 								/>
 							);
 						})}
