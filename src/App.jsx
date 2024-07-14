@@ -100,6 +100,17 @@ function App() {
 		});
 	}
 
+	function editTask(taskToEdit, newDesc) {
+		setTasks((allTasks) => {
+			return allTasks.map((task) => {
+				if (task.taskId === taskToEdit) {
+					return { ...task, desc: newDesc };
+				}
+				return task;
+			});
+		});
+	}
+
 	function deleteTask(taskToDelete) {
 		setTasks((allTasks) => {
 			return allTasks.filter((task) => {
@@ -155,8 +166,11 @@ function App() {
 									desc={task.desc}
 									isCompleted={task.isCompleted}
 									key={task.taskId}
-									toggleTask={toggleTask}
-									deleteTask={deleteTask}
+									taskFunction={{
+										toggleTask,
+										editTask,
+										deleteTask,
+									}}
 								/>
 							);
 						})}
