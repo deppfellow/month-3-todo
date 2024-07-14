@@ -22,6 +22,11 @@ function App() {
 			title: 'Init Project',
 		},
 	]);
+
+	// useEffect(() => {
+	// 	localStorage.setItem('PROJECT_ITEMS', JSON.stringify(projects));
+	// }, [projects]);
+
 	const [activeId, setActiveId] = useState(projects[0].id);
 	const [tasks, setTasks] = useState([
 		{
@@ -35,18 +40,25 @@ function App() {
 	const currentProject = projects.find((project) => {
 		if (project.id === activeId) return project;
 	});
+
 	const activeTitle = currentProject.title;
 	const activeTaskList = tasks.filter((task) => {
 		if (task.whichProject === currentProject.id) return task;
 	});
 
-	// useEffect(() => {
-	// 	localStorage.setItem('PROJECT_ITEMS', JSON.stringify(projects));
-	// }, [projects]);
-
 	function addNewProject(title) {
 		setProjects(() => {
 			return [...projects, { id: crypto.randomUUID(), title: title }];
+		});
+	}
+
+	function deleteProject(projectToDelete) {
+		setActiveId(projects[0].id);
+
+		setProjects((allProject) => {
+			return allProject.filter((project) => {
+				if (project.id !== projectToDelete) return project;
+			});
 		});
 	}
 
@@ -82,7 +94,12 @@ function App() {
 					<Button variant="outline">
 						<Pencil className="mr-2 h-4 w-4" /> Edit
 					</Button>
-					<Button variant="destructive" className="font-medium">
+					<Button
+						variant="destructive"
+						onClick={() => {
+							deleteProject(currentProject.id);
+						}}
+					>
 						<Trash className="mr-2 h-4 w-4" /> Delete
 					</Button>
 				</div>
