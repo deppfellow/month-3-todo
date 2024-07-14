@@ -4,22 +4,27 @@ import Sidebar from '@/components/Sidebar';
 import Content from '@/components/Content';
 
 function App() {
-	// localStorage.removeItem('PROJECT_ITEMS');
-	// const [projects, setProjects] = useState(() => {
-	// 	const localProjects = localStorage.getItem('PROJECT_ITEMS');
-	// 	if (localProjects == null) return [];
-	// 	return JSON.parse(localProjects);
-	// });
-	const [projects, setProjects] = useState([
-		{
-			id: 'initial-project',
-			title: 'Home',
-		},
-	]);
+	const [projects, setProjects] = useState(() => {
+		const localProjects = localStorage.getItem('PROJECT_ITEMS');
+		if (localProjects == null)
+			return [
+				{
+					id: 'initial-project',
+					title: 'Home',
+				},
+			];
+		return JSON.parse(localProjects);
+	});
+	// const [projects, setProjects] = useState([
+	// {
+	// 	id: 'initial-project',
+	// 	title: 'Home',
+	// },
+	// ]);
 
-	// useEffect(() => {
-	// 	localStorage.setItem('PROJECT_ITEMS', JSON.stringify(projects));
-	// }, [projects]);
+	useEffect(() => {
+		localStorage.setItem('PROJECT_ITEMS', JSON.stringify(projects));
+	}, [projects]);
 
 	const [activeId, setActiveId] = useState(projects[0].id);
 	const [tasks, setTasks] = useState([
