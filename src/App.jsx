@@ -15,26 +15,31 @@ function App() {
 			];
 		return JSON.parse(localProjects);
 	});
-	// const [projects, setProjects] = useState([
-	// {
-	// 	id: 'initial-project',
-	// 	title: 'Home',
-	// },
-	// ]);
+
+	const [tasks, setTasks] = useState(() => {
+		const localTasks = localStorage.getItem('TASK_ITEMS');
+		if (localTasks == null)
+			return [
+				{
+					taskId: crypto.randomUUID(),
+					desc: 'Something',
+					isCompleted: true,
+					whichProject: 'initial-project',
+				},
+			];
+		return JSON.parse(localTasks);
+	});
 
 	useEffect(() => {
 		localStorage.setItem('PROJECT_ITEMS', JSON.stringify(projects));
 	}, [projects]);
 
+	useEffect(() => {
+		localStorage.setItem('TASK_ITEMS', JSON.stringify(tasks));
+	}, [tasks]);
+
 	const [activeId, setActiveId] = useState(projects[0].id);
-	const [tasks, setTasks] = useState([
-		{
-			taskId: crypto.randomUUID(),
-			desc: 'Something',
-			isCompleted: true,
-			whichProject: 'initial-project',
-		},
-	]);
+
 	const [editProjectState, setEditProjectState] = useState(false);
 
 	const currentProject = projects.find((project) => {
