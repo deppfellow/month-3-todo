@@ -2,7 +2,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Pencil, Trash } from 'lucide-react';
 
-function TaskUnit({ taskId, desc, isCompleted, toggleTask }) {
+function TaskUnit({ taskId, desc, isCompleted, toggleTask, deleteTask }) {
 	return (
 		<li className="my-1 flex items-center gap-2">
 			{/* <Checkbox
@@ -27,7 +27,13 @@ function TaskUnit({ taskId, desc, isCompleted, toggleTask }) {
 			<Button variant="outline" size="icon">
 				<Pencil className="m-2 h-4 w-4" />
 			</Button>
-			<Button variant="destructive" size="icon">
+			<Button
+				variant="destructive"
+				size="icon"
+				onClick={() => {
+					deleteTask(taskId);
+				}}
+			>
 				<Trash className="m-2 h-4 w-4" />
 			</Button>
 		</li>

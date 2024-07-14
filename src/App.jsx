@@ -100,6 +100,14 @@ function App() {
 		});
 	}
 
+	function deleteTask(taskToDelete) {
+		setTasks((allTasks) => {
+			return allTasks.filter((task) => {
+				if (task.taskId !== taskToDelete) return task;
+			});
+		});
+	}
+
 	return (
 		<div className="app-root flex h-screen min-h-screen">
 			<Sidebar
@@ -148,6 +156,7 @@ function App() {
 									isCompleted={task.isCompleted}
 									key={task.taskId}
 									toggleTask={toggleTask}
+									deleteTask={deleteTask}
 								/>
 							);
 						})}
