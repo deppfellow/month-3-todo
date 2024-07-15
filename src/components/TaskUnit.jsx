@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { Pencil, Trash } from 'lucide-react';
 // import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Pencil, Trash } from 'lucide-react';
 
 function TaskUnit({ taskId, desc, isCompleted, taskFunction }) {
 	const { toggleTask, editTask, deleteTask } = taskFunction;
