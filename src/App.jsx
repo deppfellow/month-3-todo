@@ -1,45 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import useLocalStorage from './hooks/useLocalStorage';
 
 import Sidebar from '@/components/Sidebar';
 import Content from '@/components/Content';
 
 function App() {
-	const [projects, setProjects] = useState(() => {
-		const localProjects = localStorage.getItem('PROJECT_ITEMS');
-		if (localProjects == null)
-			return [
-				{
-					id: 'initial-project',
-					title: 'Home',
-				},
-			];
-		return JSON.parse(localProjects);
-	});
-
-	const [tasks, setTasks] = useState(() => {
-		const localTasks = localStorage.getItem('TASK_ITEMS');
-		if (localTasks == null)
-			return [
-				{
-					taskId: crypto.randomUUID(),
-					desc: 'Something',
-					isCompleted: true,
-					whichProject: 'initial-project',
-				},
-			];
-		return JSON.parse(localTasks);
-	});
-
-	useEffect(() => {
-		localStorage.setItem('PROJECT_ITEMS', JSON.stringify(projects));
-	}, [projects]);
-
-	useEffect(() => {
-		localStorage.setItem('TASK_ITEMS', JSON.stringify(tasks));
-	}, [tasks]);
-
+	const [projects, setProjects, tasks, setTasks] = useLocalStorage({});
 	const [activeId, setActiveId] = useState(projects[0].id);
-
 	const [editProjectState, setEditProjectState] = useState(false);
 
 	const currentProject = projects.find((project) => {
