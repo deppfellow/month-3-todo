@@ -19,7 +19,7 @@ function Content({ projectProps, taskProps }) {
 		taskProps;
 
 	return (
-		<div className="content max-w-3/4 flex-grow">
+		<div className="content flex grow flex-col">
 			<div className="mx-4 my-2 mb-6 flex items-center gap-2 text-2xl font-semibold">
 				<h2 className="my-2 flex-grow">
 					{editProjectState ? (
@@ -38,34 +38,52 @@ function Content({ projectProps, taskProps }) {
 				>
 					<Pencil className="mr-2 h-4 w-4" /> Edit
 				</Button>
-				<Button
-					variant="destructive"
-					onClick={() => {
-						deleteProject(currentProject.id);
-					}}
-				>
-					<Trash className="mr-2 h-4 w-4" /> Delete
-				</Button>
+				{currentProject.id === 'initial-project' ? (
+					<Button
+						disabled
+						variant="default"
+						onClick={() => {
+							deleteProject(currentProject.id);
+						}}
+					>
+						<Trash className="mr-2 h-4 w-4" /> Delete
+					</Button>
+				) : (
+					<Button
+						variant="destructive"
+						onClick={() => {
+							deleteProject(currentProject.id);
+						}}
+					>
+						<Trash className="mr-2 h-4 w-4" /> Delete
+					</Button>
+				)}
 			</div>
 
-			<div className="mx-4 my-2">
+			<div className="mx-4 my-2 flex grow flex-col">
 				<TaskForm addNewTask={addNewTask} />
-				<ul className="flex flex-col gap-1">
-					{activeTaskList.map((task) => {
-						return (
-							<TaskUnit
-								taskId={task.taskId}
-								desc={task.desc}
-								isCompleted={task.isCompleted}
-								key={task.taskId}
-								taskFunction={{
-									toggleTask,
-									editTask,
-									deleteTask,
-								}}
-							/>
-						);
-					})}
+				<ul className="grow gap-1">
+					{activeTaskList.length === 0 ? (
+						<div className="text-medium flex h-full items-center justify-center text-lg">
+							No task yet
+						</div>
+					) : (
+						activeTaskList.map((task) => {
+							return (
+								<TaskUnit
+									taskId={task.taskId}
+									desc={task.desc}
+									isCompleted={task.isCompleted}
+									key={task.taskId}
+									taskFunction={{
+										toggleTask,
+										editTask,
+										deleteTask,
+									}}
+								/>
+							);
+						})
+					)}
 				</ul>
 			</div>
 		</div>
