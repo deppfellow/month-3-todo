@@ -15,8 +15,14 @@ function Content({ projectProps, taskProps }) {
 		activeTitle,
 	} = projectProps;
 
-	const { addNewTask, toggleTask, editTask, deleteTask, activeTaskList } =
-		taskProps;
+	const {
+		addNewTask,
+		toggleTask,
+		editTask,
+		editTaskDate,
+		deleteTask,
+		activeTaskList,
+	} = taskProps;
 
 	return (
 		<div className="content flex grow flex-col">
@@ -74,10 +80,12 @@ function Content({ projectProps, taskProps }) {
 									taskId={task.taskId}
 									desc={task.desc}
 									isCompleted={task.isCompleted}
+									dueDate={task.dueDate}
 									key={task.taskId}
 									taskFunction={{
 										toggleTask,
 										editTask,
+										editTaskDate,
 										deleteTask,
 									}}
 								/>

@@ -1,18 +1,25 @@
 import { useState } from 'react';
 import { Pencil, Trash } from 'lucide-react';
-// import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import DatePicker from 'react-datepicker';
 
-function TaskUnit({ taskId, desc, isCompleted, taskFunction }) {
-	const { toggleTask, editTask, deleteTask } = taskFunction;
+import 'react-datepicker/dist/react-datepicker.css';
+
+function TaskUnit({ taskId, desc, isCompleted, dueDate, taskFunction }) {
+	const { toggleTask, editTask, editTaskDate, deleteTask } = taskFunction;
 	const [editTaskState, setEditTaskState] = useState(false);
 	const [newTaskDesc, setNewTaskDesc] = useState(desc);
+	const [newDueDate, setNewDueDate] = useState(dueDate);
 
 	function formHandler(e) {
 		e.preventDefault();
 		editTask(taskId, newTaskDesc);
 		setEditTaskState(false);
+	}
+
+	function dateHandler(date) {
+		editTaskDate(taskId, date);
 	}
 
 	return (
@@ -40,6 +47,15 @@ function TaskUnit({ taskId, desc, isCompleted, taskFunction }) {
 					)}
 				</label>
 			</div>
+
+			<DatePicker
+				selected={dueDate}
+				onSelect={(date) => {
+					console.log(date);
+				}}
+				showIcon
+			/>
+
 			<Button
 				variant="outline"
 				size="icon"

@@ -56,6 +56,7 @@ function Home() {
 					taskId: crypto.randomUUID(),
 					desc: taskDesc,
 					isCompleted: false,
+					dueDate: new Date(),
 					whichProject: currentProject.id,
 				},
 			];
@@ -78,6 +79,19 @@ function Home() {
 			return allTasks.map((task) => {
 				if (task.taskId === taskToEdit) {
 					return { ...task, desc: newDesc };
+				}
+				return task;
+			});
+		});
+	}
+
+	function editTaskDate(taskToEdit, newDate) {
+		console.log('Function fired!!');
+		setTasks((allTasks) => {
+			return allTasks.map((task) => {
+				if (task.taskId === taskToEdit) {
+					console.log('Second function fired!! New date:', newDate);
+					return { ...task, dueDate: newDate };
 				}
 				return task;
 			});
@@ -113,6 +127,7 @@ function Home() {
 					addNewTask,
 					toggleTask,
 					editTask,
+					editTaskDate,
 					deleteTask,
 					activeTaskList,
 				}}

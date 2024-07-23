@@ -24,6 +24,7 @@ function useLocalStorage({}) {
 					taskId: crypto.randomUUID(),
 					desc: 'Something',
 					isCompleted: true,
+					dueDate: new Date(),
 					whichProject: 'initial-project',
 				},
 			];
